@@ -9,7 +9,7 @@ POINT_THRESHOLD = 40
 stories = Hash.new { |h, k| h[k] = [] }
 
 ["philosophy", "history", "literature"].each do |year|
-  (0..5).each do |page|
+  (0..2).each do |page|
     ct = 0
     puts "Fetch #{"https://hn.algolia.com/api/v1/search?tags=story&query=#{year}&page=#{page}"}..."
     html = URI.parse("https://hn.algolia.com/api/v1/search?tags=story&query=#{year}&page=#{page}").read
