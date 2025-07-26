@@ -4,13 +4,13 @@ require 'date'
 require 'json'
 require 'pry'
 
-POINT_THRESHOLD = 40
+POINT_THRESHOLD = 50
 EXCLUDE_KEYWORDS = /\b(engineer|tech|software|programming)\b/i  # Matches whole words like 'engineer' or 'tech', case-insensitive
 
 stories = Hash.new { |h, k| h[k] = [] }
 
 ["philosophy", "history", "literature"].each do |topic|
-  (0..100).each do |page|
+  (0..200).each do |page|
     ct = 0
     puts "Fetch #{"https://hn.algolia.com/api/v1/search?tags=story&query=#{topic}&page=#{page}"}..."
     html = URI.parse("https://hn.algolia.com/api/v1/search?tags=story&query=#{topic}&page=#{page}").read
