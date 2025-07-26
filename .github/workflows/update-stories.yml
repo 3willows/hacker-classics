@@ -2,7 +2,7 @@ name: Daily Story Fetch
 
 on:
   schedule:
-    - cron: "0 19 * * *"  # Run every day at 07:00 UTC
+    - cron: "0 19 * * *"  # Run every day at 19:00 UTC
   workflow_dispatch:      # Allow manual trigger
 
 jobs:
@@ -19,12 +19,19 @@ jobs:
           ruby-version: 3.3
 
       - name: Install Ruby dependencies
-        run: gem install nokogiri pry
+        run: gem install nokogiri pry --no-document
 
-      - name: Run fetch script
-        run: ruby fetch.rb
+      - name: Run fetch script if stories.json is missing or outdated
+        run: |
+          if [ ! -f stories.json ]; then
+            echo "stories.json not found. Running Ruby script..."
+            ruby fetch.rb
+          else
+            echo "stories.json already exists. Proceeding to refresh..."
+            ruby fetch.rb
+          fi
 
-      - name: Commit and push changes
+      - name: Commit and push changes (if any)
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'actions@github.com'
